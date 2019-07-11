@@ -1,20 +1,25 @@
 package Riotgames.api;
 
-import org.graalvm.compiler.serviceprovider.ServiceProvider;
+import Riotgames.domain.CurrentUserInfo;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
 public class OpenRiotGamesApiClient {
 
-    private final String api_key = "RGAPI-f3d3fa6e-ad23-4e73-8943-55dcd96cffa5";
+    private final String api_key = "RGAPI-4f25729b-7de4-4e11-9d64-86f896cd41e5";
     private final String openRiotGamesUrl = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/{nickName}?api_key={api_key}";
 
-@Autowired
+    @Autowired
     RestTemplate restTemplate;
 
-
+    public CurrentUserInfo requestUserInfo(String userName){
+        return restTemplate.exchange(openRiotGamesUrl, HttpMethod.GET, null, CurrentUserInfo.class, userName, api_key)
+                .getBody();
+    }
 
 //    {
 //        "profileIconId": 4099,
